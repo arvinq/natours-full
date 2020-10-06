@@ -1,0 +1,57 @@
+//- extends the layout of base. Whatever variables are in our base, it will be replaced by
+//- what's defined in viewsController.js. e.g. #{title}
+extends base
+
+//- however, here in overview.pug, we choose not to overwrite/append base's block head so this overview will still show what's in block head defined in base.
+
+//- but replace the block in base to this block redefined here
+block content
+    main.main
+        .card-container
+            //- pug comes with a built-in loop. we're looping through the tours array we passed in our viewRoute.
+            each tour in tours
+                .card
+                    .card__header
+                        .card__picture
+                            .card__picture-overlay &nbsp;
+                            img.card__picture-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.name}`)
+                        h3.heading-tertirary
+                            span #{tour.name}
+
+                    .card__details
+                        h4.card__subheading #{tour.difficulty} #{tour.duration}-day tour
+                        p.card__text #{tour.summary}
+                        .card__data
+                            svg.card__icon
+                                use(xlink:href='/img/icons.svg#icon-map-pin')
+                            span #{tour.startLocation.description}
+                        .card__data
+                            svg.card__icon
+                                use(xlink:href='/img/icons.svg#icon-calendar')
+                            span #{tour.startDates[0].toLocaleString('en-US', { month: 'long', year: 'numeric' }) }
+                        .card__data
+                            svg.card__icon
+                                use(xlink:href='/img/icons.svg#icon-flag')
+                            span #{tour.locations.length} stops
+                        .card__data
+                            svg.card__icon
+                                use(xlink:href='/img/icons.svg#icon-user')
+                            span #{tour.maxGroupSize} people
+
+                    .card__footer
+                        p
+                            span.card__footer-value $#{tour.price}
+                            span.card__footer-text &nbsp;per person
+                        p.card__ratings
+                            span.card__footer-value #{tour.ratingsAverage}
+                            span.card__footer-text &nbsp;rating (#{tour.ratingsQuantity})
+                        a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details
+
+//- or we can do this in heading-tertirary
+//- span= tour.name
+//- `${tour.difficulty} ${tour.duration}-day tour`
+//- Date functions in JS
+//- .toLocaleString('en-US', { month: 'long', year: 'numeric' })
+//- `/tours/${tour.slug}` using slug from slugify instead of tour id to make the url much nicer
+//- also, starting a slash to build the RELATIVE URL because it will add the url after the hostname. 
+//- adding a pipe and space |<space> in each of the element inserts a space much like nbsp

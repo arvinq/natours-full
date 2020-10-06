@@ -1,0 +1,48 @@
+doctype html
+html
+    head
+        block head
+            meta(charset='UTF-8')
+            meta(name='viewport' content='width=device-width, initial-scale=1.0')
+            link(rel='stylesheet' href='/css/style.css')
+            link(rel='shorcut icon', type='image/png', href='/img/favicon.png')
+            link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+            title Natours | #{title}
+
+    body
+        // HEADER , tag.class.value, can be no value for div (see header.pug)
+        include _header
+
+        // CONTENT where main.main was previously
+        block content
+            h1 this is a placeholder heading
+
+        // FOOTER, li: same line instead of next line for ahref (see footer.pug)
+        include _footer
+
+        //- putting the script import at the end of the base so that DOM will have already loaded before accessing the document object inside our JS.
+        //- script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js')
+        //- script(src='/js/mapbox.js')
+        //- script(src='/js/login.js')
+
+        script(src='https://js.stripe.com/v3/')
+        script(src='/js/bundle.js')
+        //- script(src='/js/bundle.js.map')
+        
+        //- this replaces all the js imports into one file. This file will contain all the code that's in all the other files and all their dependencies.
+        
+
+//- interpolated code inside #{variable from rendering}
+//- <!-- pug attributes in (parenthesis below) -->
+//- <!-- each of the resources triggers their own http reqs, this is because we included the express.static module that serve static resources inside public folder. -->
+//- link(rel='stylesheet' href='css/style.css')
+//- <!-- tour and user locals being received below, called buffered code -->
+//- h1= tour
+//- h2= user.toUpperCase()
+//- --> this comment will not show in our html because of - after //
+
+//- unbuffered code will not write anything to the output as oppose to buffered code above.
+//- - const x = 9
+//- h2= 2 * x
+
+//- p This is just some text

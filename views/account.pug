@@ -1,0 +1,71 @@
+extends base
+
+mixin navItem(link, text, icon, isActive)
+    li(class=`${ isActive ? 'side-nav--active' : '' }`)
+                        a(href=`${link}`)
+                            svg
+                                use(xlink:href=`img/icons.svg#icon-${icon}`)
+                            | #{text}
+block content
+    main.main
+        .user-view
+            nav.user-view__menu
+                ul.side-nav
+                    +navItem('#', 'Settings', 'settings', true)
+                    +navItem('/my-tours', 'My bookings', 'briefcase', false)
+                    +navItem('#', 'My reviews', 'star', false)
+                    +navItem('#', 'Billing', 'credit-card', false)
+                
+                //- unbuffered JS code again here. user is passed via res.locals
+                - if (user.role === 'admin')
+                    .admin-nav
+                        h5.admin-nav__heading Admin
+                        ul.side-nav
+                            +navItem('#', 'Manage tours', 'map', false)
+                            +navItem('#', 'Manage users', 'user', false)
+                            +navItem('#', 'Manage reviews', 'star', false)
+                            +navItem('#', 'Manage bookings', 'briefcase', false)
+
+            .user-view__content
+                .user-view__form-container
+                    h2.heading-secondary.ma-bt-md Your account settings
+                    //- URL Encoding. Traditional way of submitting a request. This always happens on the form. 1st step: When the user clicks the submit button, the form will get submitted and data will be sent using a post request using the url in the action. 
+                    //- 2nd step: specify the name properties on the field that we want to send. so we add a name:'' and their values will be sent in the request body under their name attributes.
+                    //- WITHOUT API
+                    //- If we're going for withoutAPI method, we would have to include the enctype option. Its for uploading files into the server. que on multipart for sending files to the server. handled by multer
+                    //- form.form.form-user-data(action='/submit-user-data' method='POST', enctype='multipart/form-data')
+
+                    //- WITH API
+                    form.form.form-user-data
+                        .form__group
+                            label.form__label(for='name') Name
+                            input#name.form__input(type='text', value=`${user.name}`, required, name='name')
+                        .form__group.ma-bt-md
+                            label.form__label(for='email') Email address
+                            input#email.form__input(type='email', value=`${user.email}`, required, name='email')
+                        .form__group.form__photo-upload
+                            img.form__user-photo(src=`/img/users/${user.photo}`, alt=`${user.name}`)
+                            //- input of type file for uploading a file, as oppose to other types. like text, email and password. Mime type in accept. name is related to user doc's photo and the name that multer expects
+                            input.form__upload(type='file', accept='image/*', id='photo', name='photo')
+                            //- in html, when we click the label, it will activate the input element that has the id referred to by FOR. Since FOR is referring to 'photo', it will activate the input type above triggering the file upload
+                            label(for='photo') Choose new photo
+                        .form__group.right
+                            button.btn.btn--small.btn--green Save settings
+
+                .line &nbsp;
+
+                .user-view__form-container
+                    h2.heading-secondary.ma-bt-md Password change
+                    form.form.form-user-password
+                        .form__group
+                            label.form__label(for='password-current') Current password
+                            input#password-current.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                        .form__group
+                            label.form__label(for='password') New password
+                            input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                        .form__group.ma-bt-lg
+                            label.form__label(for='password-confirm') Confirm password
+                            input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                        .form__group.right
+                            //- we added a classname (btn--save-password) because all of the classes are not unique. This is for us to reference this button in our index.js
+                            button.btn.btn--small.btn--green.btn--save-password Save password
