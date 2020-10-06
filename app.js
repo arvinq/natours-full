@@ -24,6 +24,7 @@ const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
+// Start express app
 //will add a bunch of functions from express into our app var
 const app = express();
 
