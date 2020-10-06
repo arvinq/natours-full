@@ -149,7 +149,7 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  console.log({ resetToken }, this.passwordResetToken);
+  // console.log({ resetToken }, this.passwordResetToken);
 
   //token expires in 10 mins.
   //To achieve this, we need to multiply 10 by 60 for seconds then 1000 for milliseconds

@@ -39,10 +39,11 @@ export const updateSettings = async (data, type) => {
     //per API endpoint.
     //Data will be the body that is sent along with the request.
 
+    // we can remove the host:port (http://127.0.0.1:3000) and just keep the relative url in our frontend(client-side) javascript. This is because our API and our website are hosted on the same server (using the same url)
     const url =
       type === 'password'
-        ? 'http://127.0.0.1:3000/api/v1/users/updateMyPassword'
-        : 'http://127.0.0.1:3000/api/v1/users/updateMe';
+        ? '/api/v1/users/updateMyPassword'
+        : '/api/v1/users/updateMe';
 
     const res = await axios({
       method: 'PATCH',

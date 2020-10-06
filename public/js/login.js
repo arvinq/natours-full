@@ -6,15 +6,16 @@ import '@babel/polyfill';
 import axios from 'axios';
 import { showAlert } from './alert';
 
-console.log('Hello from the client side - Login');
+// console.log('Hello from the client side - Login');
 
 //since we implemented parcel which is a js bundler, we need to export this login
 export const login = async (email, password) => {
   try {
     // Axios can trigger http requests using API methods.
+    // we can remove the host:port (http://127.0.0.1:3000) and just keep the relative url in our frontend (client-side) javascript. This is because our API and our website are hosted on the same server (using the same url)
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:3000/api/v1/users/login',
+      url: '/api/v1/users/login',
       data: {
         email,
         password,
@@ -39,9 +40,10 @@ export const login = async (email, password) => {
 
 export const logout = async () => {
   try {
+    // we can remove the host:port (http://127.0.0.1:3000) and just keep the relative url in our frontend(client-side) javascript. This is because our API and our website are hosted on the same server (using the same url)
     const res = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:3000/api/v1/users/logout',
+      url: '/api/v1/users/logout',
     });
 
     //since above is an ajax request, we cannot do this on the backend

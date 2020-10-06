@@ -63,7 +63,7 @@ exports.uploadTourImages = upload.fields([
 // upload.array('images', 3); //upload 3 with the same name reference field in model. will produce req.files
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
-  console.log(req.files);
+  // console.log(req.files);
 
   if (!req.files || !req.files.imageCover || !req.files.images) return next();
 

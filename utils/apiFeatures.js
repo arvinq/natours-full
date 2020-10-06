@@ -73,7 +73,7 @@ class APIFeatures {
       //by space. then we add -__v on the string so that we don't include it in our query
       let selectFields = this.queryString.fields.split(',').join(' ');
       // selectFields = `${selectFields} -__v`; ---> this needs some thinking
-      console.log(selectFields);
+      // console.log(selectFields);
       this.queryObj = this.queryObj.select(selectFields);
     } else {
       //if there's no selected field, then we just omit __v in our fields

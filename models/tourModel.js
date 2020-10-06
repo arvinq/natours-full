@@ -225,7 +225,7 @@ tourSchema.pre(/^find/, function (next) {
   //this here is now a query object
   this.find({ secretTour: { $ne: true } });
 
-  //assigning a property to the this object bec. this is essentially an object of its own
+  //assigning a property to the this object bec. ThiS is essentially an object of its own
   this.start = Date.now();
   next();
 });

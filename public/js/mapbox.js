@@ -2,10 +2,10 @@
 
 // Sine this JS is injected at the beginning of template essentially, at the beginning of html, DOM might not be already loaded. so accessing the document will be erroneous
 
-console.log('Hello from the client side - Mapbox');
+// console.log('Hello from the client side - Mapbox');
 
 export const displayMap = (locations) => {
-  console.log(locations);
+  // console.log(locations);
 
   mapboxgl.accessToken =
     'pk.eyJ1IjoiYXJ2aW5xIiwiYSI6ImNrZnBha2ZoZDA1b2syc3BnY2o1bmE0czEifQ.ZOw8e4kOB7BXWbGoJZzsfA';

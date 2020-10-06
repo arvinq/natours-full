@@ -96,7 +96,7 @@ const filterObj = (obj, ...allowedFields) => {
 // req.file contains the file that we upload using Body > form-data in postman
 // body parser cannot handle file uploads hence we are using form-data and the best way to easily handle it is by multer.
 exports.updateMe = catchAsync(async (req, res, next) => {
-  console.log(req.file);
+  // console.log(req.file);
   // 1) Create error if user POSTed a password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(

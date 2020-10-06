@@ -12,9 +12,8 @@ export const bookTour = async (tourId) => {
   try {
     // 1) Get the checkout session from the server / API
     //since we only need a GET, we can do something like this in axios
-    const session = await axios(
-      `http://127.0.0.1:3000/api/v1/bookings/checkout-session/${tourId}`
-    );
+    // we can remove the host:port (http://127.0.0.1:3000) and just keep the relative url in our frontend(client-side) javascript. This is because our API and our website are hosted on the same server (using the same url)
+    const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
     // console.log(session);
 
     // 2) Use stripe to create checkout form + charge credit card for us

@@ -1,5 +1,5 @@
 /* eslint-disable */
-console.log('Hello from the client side - Alert');
+// console.log('Hello from the client side - Alert');
 
 export const hideAlert = () => {
   //get the element with the alert class, which is the markup div that we created.
