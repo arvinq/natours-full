@@ -14,6 +14,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const csp = require('express-csp');
+const compression = require('compression');
 
 // our own modules
 const AppError = require('./utils/appError');
@@ -32,9 +33,10 @@ const app = express();
 //our pug templates are views in express.
 app.set('view engine', 'pug');
 
+//using the built in path module from express here,
 //to define which folder our views/templates are located in.
 // OLD app.set('views', `${__dirname}/views`);
-console.log(`${path.join(__dirname, 'views')}`);
+// console.log(`${path.join(__dirname, 'views')}`);
 app.set('views', path.join(__dirname, 'views'));
 
 // Serving static files
@@ -203,6 +205,9 @@ app.use(
 //   console.log('Hello from the middleware - this is a sample middleware');
 //   next();
 // });
+
+//this will use the middleware function that will compress all the text reponses sent to client.
+app.use(compression());
 
 // Test middleware
 //modifying the request by means of middleware
