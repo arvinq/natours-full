@@ -85,3 +85,15 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
   });
 });
+
+//HEroku dynos are containers in which the app is running. It restarts every 24hrs to keep the app in a healthy state.
+// and the way heroku does this is by sending a SIGTERM signal. It is a signal to cause the program to stop running
+// we need to listen to this event that heroku emits every 24 hrs to refresh our app.
+// we shutdown the application gracefully by using server.close to allow all the pending requests to process until the end.
+process.on('SIGTERM', () => {
+  console.log('👋🏻 SIGTERM RECEIVED. Shutting down gracefully.');
+  //graceful shutdown. Handles all the pending request before shutdown.
+  server.close(() => {
+    console.log('Process Terminated');
+  });
+});
