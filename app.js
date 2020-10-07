@@ -15,6 +15,7 @@ const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const csp = require('express-csp');
 const compression = require('compression');
+const cors = require('cors');
 
 // our own modules
 const AppError = require('./utils/appError');
@@ -42,6 +43,25 @@ app.set('view engine', 'pug');
 // OLD app.set('views', `${__dirname}/views`);
 // console.log(`${path.join(__dirname, 'views')}`);
 app.set('views', path.join(__dirname, 'views'));
+
+// Implement CORS (Cross Origin Resource Sharing).
+// If we want to allow our API to be accessible by everyone (diff domains, subD, platforms and ports) we implement cors
+// This will return a middleware func. which will add a couple of headers to our response.
+// Access-Control-Allow-Origin *
+app.use(cors());
+//if we only want our frontend to access our api and our frontend and api have different domain.
+// e.g api.natours.com, frontend: natours.com, then we can use this:
+// app.use(cors({
+//   origin: 'https://www.natours.com'
+// }))
+
+// browser sends an option request which is called a pre-flight phase, pre-flight phase are needed when a non-simple request like put, patch and delete, requests that send cookies or use non standard headers are called. The preflight phase is sort of a security if the non-simple request is allowed to be executed.
+// apparently, if the browser issues a pre-flight phase, our cors above will not work. so we need to do second part of cors implementation
+// a look at the options http method below sent by the browser for non-simple requests (preflight phase):
+// we want to handle option method on all the routes, and apply cors middleware to it.
+app.options('*', cors());
+// on specific route eg:
+// app.options('/api/v1/tours/:id', cors());
 
 // Serving static files
 //using a built-in express middleware to server static files.
