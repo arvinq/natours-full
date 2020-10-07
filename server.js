@@ -65,6 +65,7 @@ mongoose
 
 /*************************** START SERVER ******************************/
 //listening to url and assign the server to a var to use for our safety net
+//Heroku will assign a random port number to process.env.PORT so it is important to listen to this port across the app.
 const port = process.env.PORT;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
