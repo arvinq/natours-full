@@ -29,6 +29,10 @@ const viewRouter = require('./routes/viewRoutes');
 //will add a bunch of functions from express into our app var
 const app = express();
 
+//built-in to express. Since heroku acts as proxy it will then redirect or modify reqs before coming into our app.
+//to make req.secure work, we need to trust proxies.
+app.enable('trust proxy');
+
 //tell express what template engine we're going to use.
 //our pug templates are views in express.
 app.set('view engine', 'pug');

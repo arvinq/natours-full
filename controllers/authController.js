@@ -20,26 +20,45 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
-  const cookieOption = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
+
+  //Refactored version 2: see this whole cookieOPtion inside res.cookie below
+  // const cookieOption = {
+  //   expires: new Date(
+  //     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+  //   ),
+  //   httpOnly: true,
+  //   secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  // };
 
   //expires: the browser/client will delete this cookie on the expiration date specified
   //(days * n hours in a day * n minutes in an hour * n seconds in minutes * n milliseconds in seconds)
   //httpOnly: cookie cannot be access or modified by browser / client, super strong way of dealing with cookies.
 
   //secure: only send cookies on secure connection (https), we only want this in prod
-  if (process.env.NODE_ENV === 'production') {
-    cookieOption.secure = true;
-  }
+  //however, even if we're in prod, doesn't mean the connection is secure. Not all deployed apps are set to https.
+  //in express, we have a secure property in req. When the connection is secure, this returns true.
+  // if (process.env.NODE_ENV === 'production') {
+  // However, in Heroku, this doesn't work, bec heroku proxies redirects and modifies all incoming request before they reach the app.
+  //for this to work, we need to add this and trust proxies, see app.js:
+  // if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
+  //   cookieOption.secure = true;
+  // }
+  // Refactored version 1: (we can add this secure above in cookieOption object, then have all of the cookieOption object {...} be inside res.cookie below, instead of cookieOption var in there.)
+  // cookieOption.secure =
+  //   req.secure || req.headers['x-forwarded-proto'] === 'https';
 
   //creating and sending cookie to the response
-  res.cookie('jwt', token, cookieOption);
+  // res.cookie('jwt', token, cookieOption);
+  //Refactored Version 3:
+  res.cookie('jwt', token, {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  });
 
   //remove the password from the output
   user.password = undefined;
@@ -83,7 +102,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   await new Email(newUser, url).sendWelcome();
   // wait for the email to be sent before creatingSendToken hence the await
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 });
 
 // user login
@@ -113,7 +132,7 @@ exports.login = catchAsync(async (req, res, next) => {
   //   status: 'SUCCESS',
   //   token,
   // });
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 //workaround for logging out. we assign a dummy value on the jwt token
@@ -302,7 +321,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   //   status: 'SUCCESS',
   //   token,
   // });
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 // updating password for logged in users
@@ -338,7 +357,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   //   status: 'SUCCESS',
   //   token,
   // });
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 // Only for rendered pages. No Errors!
