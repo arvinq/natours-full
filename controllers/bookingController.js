@@ -22,9 +22,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     // - A) Information about the session
     payment_method_types: ['card'], //card is for credit card
     //url that will get called as soon as the credit card has been successfully charged
-    //we want to create a new booking whenever the success url is accessed. So we can put the data here as a query string since stripe will just GET this url. The only way to pass in the values.
-    //below is not really secure, since user can just access this url without booking a tour.
-    success_url: `${req.protocol}://${req.get('host')}/?tour=${
+    //we want to create a new booking whenever the success url is accessed. So we can put the data here
+    //as a query string since stripe will just GET this url. The only way to pass in the values.
+    //below is not really secure, since user can just access /my-tours/ (see viewRoutes.js) url without booking a tour.
+    success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
       req.params.tourId
     }&user=${req.user.id}&price=${tour.price}`,
     //the page the user goes if they choose to cancel the payment
