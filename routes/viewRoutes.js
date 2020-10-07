@@ -23,7 +23,7 @@ router.get('/me', authController.protect, viewsController.getAccount);
 //we want to create our booking, so we will need to add bookingCheckout middleware function in this stack.
 router.get(
   '/my-tours',
-  bookingController.createBookingCheckout,
+  //bookingController.createBookingCheckout, //alternative for webhook, uncomment for dev env
   authController.protect,
   viewsController.getMyTours
 );
