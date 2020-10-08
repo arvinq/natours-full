@@ -13,6 +13,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const csp = require('express-csp');
 const compression = require('compression');
 const cors = require('cors');
@@ -182,7 +183,8 @@ app.use('/api', limiter);
 // When we receive the body from stripe, the stripe func that we will use to read the body need this body to be in raw form, basically as a stream and not JSON. As soon as the request hits the body parser below, the body will be parsed and converted to json, put in req.body as a simple JSON obj. So the webhookCheckout handler will not work.
 app.post(
   '/webhook-checkout',
-  express.raw({ type: 'application/json' }),
+  bodyParser.raw({ type: 'application/json' }),
+  // express.raw({ type: 'application/json' }),
   bookingController.webhookCheckout
 );
 //we still need to parse the body but in a raw format. hence we uses express.raw
