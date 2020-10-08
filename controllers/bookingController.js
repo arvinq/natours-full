@@ -72,8 +72,9 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   await Booking.create({ tour, user, price });
 
   //we redirect the url to root again instead of displaying the query strings.
+  //except for alert booking. This is to add alert, triggering the showing of alert with message. (see index.js)
   // `${req.protocol}://${req.get('host')}/
-  res.redirect(req.originalUrl.split('?')[0]);
+  res.redirect(`${req.originalUrl.split('?')[0]}?alert=booking`);
 });
 
 const createBookingDoc = async (session) => {

@@ -119,4 +119,6 @@ if (bookButton) {
 
 const alertMessage = document.querySelector('body').dataset.alert;
 // if alert is set in our data-alert in base.pug, we call showAlert.
-if (alertMessage) showAlert('success', alertMessage, 10);
+if (alertMessage) {
+  showAlert('success', alertMessage, 10);
+}
