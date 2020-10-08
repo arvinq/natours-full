@@ -10,6 +10,10 @@ const router = express.Router();
 //(pug files)
 // its not to be confused with the JS inside public. which handles the actions of the views.
 
+//this middleware will run for all the requests coming into our website. SO its like the first
+//middleware to be executed before all the router.get below.
+router.use(viewsController.alerts);
+
 //so before accessing every web routes, we need to check if the user is logged in first.
 //instead of having it here, we use isLoggedIn per route because it will be redundant for
 //getAccount to run the same process for both isLoggedIn and protect

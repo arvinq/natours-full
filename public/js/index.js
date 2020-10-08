@@ -8,6 +8,7 @@ import { login, logout } from './login';
 import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
+import { showAlert } from './alert';
 
 //DOM ELEMENTS
 //get the ids or classnames of the elements in the web templates
@@ -23,6 +24,7 @@ const bookButton = document.getElementById('book-tour');
 if (mapBox) {
   //now we can get any data from our html by reading elemet attributes' dataset
   //we also need to convert this into a an object via json parse since its passed in as string.
+  //see tour.pug to check on data-locations
   const locations = JSON.parse(mapBox.dataset.locations);
 
   displayMap(locations);
@@ -107,9 +109,14 @@ if (bookButton) {
     // button.textContent
     e.target.textContent = 'Processing...';
 
+    //dataset found in tour.pug
     // in JS, anything in data attribute that has a dash ( - ) will be converted to camel case when accessed here in JS
     // const tourId = e.target.dataset.tourId; //since same name
     const { tourId } = e.target.dataset; //we use destructuring
     bookTour(tourId);
   });
 }
+
+const alertMessage = document.querySelector('body').dataset.alert;
+// if alert is set in our data-alert in base.pug, we call showAlert.
+if (alert) showAlert('success', alertMessage, 20);

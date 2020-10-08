@@ -10,7 +10,7 @@ export const hideAlert = () => {
 };
 
 // type is either 'success' or 'error'
-export const showAlert = (type, msg) => {
+export const showAlert = (type, msg, time = 7) => {
   //whener we show alerts, we previous alerts first.
   hideAlert();
 
@@ -21,5 +21,6 @@ export const showAlert = (type, msg) => {
   document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
 
   //hide the alert after 5 seconds
-  window.setTimeout(hideAlert, 5000);
+  //* 1000 for milliseconds
+  window.setTimeout(hideAlert, time * 1000);
 };

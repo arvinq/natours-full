@@ -30,7 +30,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
       req.params.tourId
     }&user=${req.user.id}&price=${tour.price}`,***/
-    success_url: `${req.protocol}://${req.get('host')}/my-tours`,
+    //add the alert in our query string. we can also add the alert in all other urls.
+    success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
     //the page the user goes if they choose to cancel the payment
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,

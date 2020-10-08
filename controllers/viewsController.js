@@ -104,3 +104,16 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
     user: updatedUser,
   });
 });
+
+exports.alerts = (req, res, next) => {
+  //from bookingController, we added alert in our query string in success url.
+  const { alert } = req.query;
+
+  if (alert === 'booking') {
+    res.locals.alert =
+      "Your booking was successful! Please check your email for a confirmation. If your booking doesn't show up here immediately, please come back later.";
+    //should the webhook is called a little bit after the success url is called, we need this message to notify the user of this instance.
+
+    next();
+  }
+};
