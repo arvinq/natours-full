@@ -9,8 +9,8 @@ html
             link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
             title Natours | #{title}
 
-    //- add a data-alert property that will be set if alert var is available. We can pass this alert to all our template via the res.locals
-    body(data-alert=`${alert ? alert : ''}`)
+    //- add a data-alert property that will be set if alert var is available. We can pass this alert to all our template via the res.locals.. (data-alert=`${alert ? alert : ''}`)
+    body
         // HEADER , tag.class.value, can be no value for div (see header.pug)
         include _header
 
