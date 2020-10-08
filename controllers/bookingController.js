@@ -39,7 +39,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     // - B) Information about the product that the user is about to purchase
     line_items: [
       {
-        name: `${tour.name} Tour`,
+        // name: `${tour.name} Tour`,
         description: `${tour.summary}`,
         images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
         price: `${tour.price * 100}`, //converted to cents hence multiplied by 100
