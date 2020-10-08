@@ -180,13 +180,14 @@ const limiter = rateLimit({
 //mount the limiter to all of the /api routes
 app.use('/api', limiter);
 
+/*** For webhook implementation, uncomment if you want webhook implementation in prod env ***/
 // When we receive the body from stripe, the stripe func that we will use to read the body need this body to be in raw form, basically as a stream and not JSON. As soon as the request hits the body parser below, the body will be parsed and converted to json, put in req.body as a simple JSON obj. So the webhookCheckout handler will not work.
-app.post(
-  '/webhook-checkout',
-  bodyParser.raw({ type: 'application/json' }),
-  // express.raw({ type: 'application/json' }),
-  bookingController.webhookCheckout
-);
+// app.post(
+//   '/webhook-checkout',
+//   bodyParser.raw({ type: 'application/json' }),
+//   // express.raw({ type: 'application/json' }),
+//   bookingController.webhookCheckout
+// );
 //we still need to parse the body but in a raw format. hence we uses express.raw
 
 // Body parser, reading/parsing data from the body into req.body

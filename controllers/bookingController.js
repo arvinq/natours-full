@@ -26,12 +26,14 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     //we want to create a new booking whenever the success url is accessed. So we can put the data here
     //as a query string since stripe will just GET this url. The only way to pass in the values.
     //below is not really secure, since user can just access /my-tours/ (see viewRoutes.js) url without booking a tour.
-    /*** alternative for webhook, uncomment for dev env
-    success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
-      req.params.tourId
-    }&user=${req.user.id}&price=${tour.price}`,***/
+    /*** alternative for webhook, uncomment for dev env***/
+    success_url: `${req.protocol}://${req.get(
+      'host'
+    )}/my-tours/?alert=booking&tour=${req.params.tourId}&user=${
+      req.user.id
+    }&price=${tour.price}`,
     //add the alert in our query string. we can also add the alert in all other urls.
-    success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
+    // success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
     //the page the user goes if they choose to cancel the payment
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
@@ -60,6 +62,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 /***
 alternative for webhook, uncomment for dev env
+***/
 exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   //All of this is only TEMPORARY, because this is UNSECURE, and everyone can make bookings without paying
   //destructuring from above success url in getCheckoutSession
@@ -72,7 +75,6 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   // `${req.protocol}://${req.get('host')}/
   res.redirect(req.originalUrl.split('?')[0]);
 });
-***/
 
 const createBookingDoc = async (session) => {
   const tour = session.client_reference_id;
