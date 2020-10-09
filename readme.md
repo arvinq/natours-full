@@ -5,4 +5,4 @@ book and manage tours integrating Stripe as payment mechanism. And show tour's l
 
 Backend is built using modern technologies: node.js, express, mongoDB, and mongoose.
 
-See the application here: natours-aq.herokuapp.com
+See the application here: [natours-aq.herokuapp.com](https://natours-aq.herokuapp.com)
