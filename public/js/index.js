@@ -9,10 +9,12 @@ import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { showAlert } from './alert';
+import { signup } from './signup';
 
 //DOM ELEMENTS
 //get the ids or classnames of the elements in the web templates
 const mapBox = document.getElementById('map'); // for IDs see #map in tour.pug
+const signupForm = document.querySelector('.form--signup');
 const loginForm = document.querySelector('.form--login');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
@@ -28,6 +30,18 @@ if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
 
   displayMap(locations);
+}
+
+if (signupForm) {
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('confirmPassword').value;
+
+    signup(name, email, password, passwordConfirm);
+  });
 }
 
 if (loginForm) {
