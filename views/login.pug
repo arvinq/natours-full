@@ -13,3 +13,7 @@ block content
                     input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
                 .form__group
                     button.btn.btn--green Login
+                .form__group
+                    .description-box
+                        //- for inline href inside p, we can do it like this:
+                        p.description__text Don't have an account? #[a(href='/login') Sign up] now.
