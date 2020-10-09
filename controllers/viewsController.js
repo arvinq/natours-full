@@ -58,6 +58,16 @@ exports.getLoginForm = (req, res, next) => {
   }
 };
 
+exports.getSignUpForm = (req, res, next) => {
+  if (!req.cookies.jwt) {
+    res.status(200).render('signup', {
+      title: 'Create your account',
+    });
+  } else {
+    return next();
+  }
+};
+
 // we don't have to pass in the user because its already passed by protect to res.locals (see authController.protect)
 exports.getAccount = (req, res) => {
   res.status(200).render('account', {
